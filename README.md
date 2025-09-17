@@ -2,6 +2,10 @@
 
 **luci-app-nyn** is a Front-end interface in openwrt for nyn - the modern 802.1x standard authentication client.
 
+<p align="center">
+  <img src="https://github.com/Dichgrem/luci-app-nyn/blob/main/screenshot.png" width="400">
+</p>
+
 ## How to build
 
 - First clone this repository to the package directory of the openwrt you want to compile:
