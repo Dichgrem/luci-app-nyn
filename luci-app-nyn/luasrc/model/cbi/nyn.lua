@@ -2,6 +2,19 @@
 local m, s, o
 local sys = require "luci.sys"
 
+-- control
+local start_action = luci.http.formvalue("cbid.nyn.auth.start_service")
+local stop_action = luci.http.formvalue("cbid.nyn.auth.stop_service")  
+local restart_action = luci.http.formvalue("cbid.nyn.auth.restart_service")
+
+if start_action then
+    sys.call("/etc/rc.d/S99nyn start")
+elseif stop_action then
+    sys.call("/etc/rc.d/S99nyn stop")
+elseif restart_action then
+    sys.call("/etc/rc.d/S99nyn stop; sleep 2; /etc/rc.d/S99nyn start")
+end
+
 m = Map("nyn", "NYN 802.1x 认证客户端",
     "配置使用 NYN 客户端进行网络访问的 802.1x 认证")
 
@@ -23,9 +36,21 @@ o.cfgvalue = function()
     end
 end
 
--- Enable/Disable
-o = s:option(Flag, "enabled", "启用服务")
-o.rmempty = false
+-- control buttons
+control_buttons = s:option(DummyValue, "_control", "服务控制")
+control_buttons.rawhtml = true
+control_buttons.cfgvalue = function()
+    return [[
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <input type="submit" class="cbi-button cbi-button-apply" 
+                   name="cbid.nyn.auth.start_service" value="启动服务" />
+            <input type="submit" class="cbi-button cbi-button-remove" 
+                   name="cbid.nyn.auth.stop_service" value="停止服务" />
+            <input type="submit" class="cbi-button cbi-button-reload" 
+                   name="cbid.nyn.auth.restart_service" value="重启服务" />
+        </div>
+    ]]
+end
 
 -- Username
 o = s:option(Value, "user", "用户名", "802.1x 认证用户名")

@@ -7,13 +7,44 @@ function index()
     end
 
     -- Menu
-    entry({"admin", "network", "nyn"}, firstchild(), _("NyN-Client"), 60).dependent = false
+    entry({"admin", "network", "nyn"}, cbi("nyn"), "NyN", 60).dependent = false
 
     -- Settings
-    entry({"admin", "network", "nyn", "config"}, cbi("nyn"), _("Settings"), 1).leaf = true
+    entry({"admin", "network", "nyn", "service_control"}, call("service_control")).leaf = true
 
     -- Status API
     entry({"admin", "network", "nyn", "get_status"}, call("act_status")).leaf = true
+end
+
+function service_control()
+    local sys = require "luci.sys"
+    local action = luci.http.formvalue("action")
+    local result = { success = false, message = "" }
+
+    if action then
+        local cmd = ""
+        if action == "start" then
+            cmd = "/etc/rc.d/S99nyn start"
+        elseif action == "stop" then
+            cmd = "/etc/rc.d/S99nyn stop"
+        elseif action == "restart" then
+            cmd = "/etc/rc.d/S99nyn stop && sleep 2 && /etc/rc.d/S99nyn start"
+        end
+
+        if cmd ~= "" then
+            local ret = sys.call(cmd)
+            if ret == 0 then
+                result.success = true
+                result.message = action .. " 成功"
+            else
+                result.success = false
+                result.message = action .. " 失败"
+            end
+        end
+    end
+
+    luci.http.prepare_content("application/json")
+    luci.http.write_json(result)
 end
 
 function act_status()
@@ -40,5 +71,3 @@ function act_status()
     luci.http.prepare_content("application/json")
     luci.http.write_json(status)
 end
-
-
