@@ -1,6 +1,6 @@
 config general 'general'
 	option enabled '0'
-	option timeout '1'
+	option timeout '5'
 	option retry '5'
 	option schedule_callback '0'
 
