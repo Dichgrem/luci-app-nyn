@@ -77,4 +77,41 @@ for _, iface in ipairs(interfaces) do
     end
 end
 
+-- Auto start
+auto_start = s:option(Flag, "auto_start", "启用定时启动")
+auto_start.description = "启用后将在每周一至周五的 7:00 自动启动服务"
+auto_start.rmempty = false
+
+-- Get Status
+auto_start.cfgvalue = function(self, section)
+    local has_cron = sys.call("crontab -l 2>/dev/null | grep 'S99nyn' >/dev/null") == 0
+    return has_cron and "1" or "0"
+end
+
+-- Crontab
+auto_start.write = function(self, section, value)
+    if value == "1" then
+        -- 启用定时任务：每周一至周五 7:00 启动
+        sys.call("(crontab -l 2>/dev/null | grep -v 'S99nyn' | grep -v '# nyn auto') | crontab - 2>/dev/null")
+        sys.call("(crontab -l 2>/dev/null; echo '0 7 * * 1,2,3,4,5 /etc/rc.d/S99nyn start # nyn auto start') | crontab -")
+        sys.call("/etc/init.d/cron enable && /etc/init.d/cron restart")
+    else
+        -- 禁用定时任务
+        sys.call("(crontab -l 2>/dev/null | grep -v 'S99nyn' | grep -v '# nyn auto') | crontab - 2>/dev/null")
+        sys.call("/etc/init.d/cron restart")
+    end
+end
+
+-- Crontab Status
+timer_status_display = s:option(DummyValue, "_timer_status_display", "定时任务状态")
+timer_status_display.rawhtml = true
+timer_status_display.cfgvalue = function()
+    local cron_output = sys.exec("crontab -l 2>/dev/null | grep 'S99nyn' || echo '未设置'")
+    if cron_output:match("S99nyn") then
+        return "<span style='color:green;font-weight:bold'>✔ 已启用 (每周一至周五 7:00 自动启动)</span>"
+    else
+        return "<span style='color:red;font-weight:bold'>✘ 未启用</span>"
+    end
+end
+
 return m
