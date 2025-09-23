@@ -6,6 +6,8 @@
   <img src="https://github.com/Dichgrem/luci-app-nyn/blob/main/screenshot.png" width="400">
 </p>
 
+> Attention ! The nyn project is archived and it is recommended to use the c language version of zzz instead of it ! In order to commemorate nyn, the name of this project is not modified.
+
 ## How to build
 
 - First clone this repository to the package directory of the openwrt you want to compile:
@@ -19,7 +21,7 @@ git clone https://github.com/Dichgrem/luci-app-nyn.git
 - Finally, run
 ```
 make package/luci-app-nyn/clean V=s
-make package/luci-app-nyn/compile V=s 
+make package/luci-app-nyn/compile V=s
 ```
 and
 ```
@@ -41,4 +43,3 @@ bin/packages/x86_64/base/luci-app-nyn_0_all.ipk
 
 - [diredocks/nyn](https://github.com/diredocks/nyn)
 - [bitdust/njit8021xclient](https://github.com/bitdust/njit8021xclient)
-
