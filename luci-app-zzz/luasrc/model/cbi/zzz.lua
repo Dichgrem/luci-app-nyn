@@ -8,14 +8,14 @@ local stop_action = luci.http.formvalue("cbid.zzz.auth.stop_service")
 local restart_action = luci.http.formvalue("cbid.zzz.auth.restart_service")
 
 if start_action then
-    sys.call("/etc/rc.d/zzz start")
+    sys.call("/etc/rc.d/S99zzz start")
 elseif stop_action then
-    sys.call("/etc/rc.d/zzz stop")
+    sys.call("/etc/rc.d/S99zzz stop")
 elseif restart_action then
-    sys.call("/etc/rc.d/zzz stop; sleep 2; /etc/rc.d/zzz start")
+    sys.call("/etc/rc.d/S99zzz stop; sleep 2; /etc/rc.d/S99zzz start")
 end
 
-m = Map("zzz", "zzz 802.1x 认证客户端",
+m = Map("zzz", "ZZZ 802.1x 认证客户端",
     "配置使用 zzz 客户端进行网络访问的 802.1x 认证")
 
 -- Authentication Settings
@@ -84,7 +84,7 @@ auto_start.rmempty = false
 
 -- Get Status
 auto_start.cfgvalue = function(self, section)
-    local has_cron = sys.call("crontab -l 2>/dev/null | grep 'zzz' >/dev/null") == 0
+    local has_cron = sys.call("crontab -l 2>/dev/null | grep 'S99zzz' >/dev/null") == 0
     return has_cron and "1" or "0"
 end
 
@@ -92,12 +92,12 @@ end
 auto_start.write = function(self, section, value)
     if value == "1" then
         -- 启用定时任务：每周一至周五 7:00 启动
-        sys.call("(crontab -l 2>/dev/null | grep -v 'zzz' | grep -v '# zzz auto') | crontab - 2>/dev/null")
-        sys.call("(crontab -l 2>/dev/null; echo '0 7 * * 1,2,3,4,5 /etc/rc.d/zzz start # zzz auto start') | crontab -")
+        sys.call("(crontab -l 2>/dev/null | grep -v 'S99zzz' | grep -v '# zzz auto') | crontab - 2>/dev/null")
+        sys.call("(crontab -l 2>/dev/null; echo '0 7 * * 1,2,3,4,5 /etc/rc.d/S99zzz start # zzz auto start') | crontab -")
         sys.call("/etc/init.d/cron enable && /etc/init.d/cron restart")
     else
         -- 禁用定时任务
-        sys.call("(crontab -l 2>/dev/null | grep -v 'zzz' | grep -v '# zzz auto') | crontab - 2>/dev/null")
+        sys.call("(crontab -l 2>/dev/null | grep -v 'S99zzz' | grep -v '# zzz auto') | crontab - 2>/dev/null")
         sys.call("/etc/init.d/cron restart")
     end
 end
@@ -106,8 +106,8 @@ end
 timer_status_display = s:option(DummyValue, "_timer_status_display", "定时任务状态")
 timer_status_display.rawhtml = true
 timer_status_display.cfgvalue = function()
-    local cron_output = sys.exec("crontab -l 2>/dev/null | grep 'zzz' || echo '未设置'")
-    if cron_output:match("zzz") then
+    local cron_output = sys.exec("crontab -l 2>/dev/null | grep 'S99zzz' || echo '未设置'")
+    if cron_output:match("S99zzz") then
         return "<span style='color:green;font-weight:bold'>✔ 已启用 (每周一至周五 7:00 自动启动)</span>"
     else
         return "<span style='color:red;font-weight:bold'>✘ 未启用</span>"
