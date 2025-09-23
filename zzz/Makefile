@@ -14,7 +14,7 @@ define Package/zzz
   CATEGORY:=Network
   TITLE:=ZZZ 802.1x Authentication Client
   URL:=https://github.com/diredocks/zzz
-  DEPENDS:=
+  DEPENDS:=+libpcap
 endef
 
 define Package/zzz/description
@@ -43,17 +43,17 @@ define Package/zzz/install
 	$(INSTALL_DIR) $(1)/etc/zzz
 
 	# Install precompiled binary based on architecture
-	$(if $(CONFIG_TARGET_x86_64),$(INSTALL_BIN) ./files/bin/zzz-x86-linux-gnu $(1)/usr/bin/zzz)
-	$(if $(CONFIG_TARGET_armvirt_64),$(INSTALL_BIN) ./files/bin/zzz-aarch64-linux-gnu $(1)/usr/bin/zzz)
-	$(if $(CONFIG_TARGET_bcm27xx_bcm2711),$(INSTALL_BIN) ./files/bin/zzz-aarch64-linux-gnu $(1)/usr/bin/zzz)
+	$(if $(CONFIG_TARGET_x86_64),$(INSTALL_BIN) ./files/bin/zzz-x86-64-linux-musl $(1)/usr/bin/zzz)
+	$(if $(CONFIG_TARGET_armvirt_64),$(INSTALL_BIN) ./files/bin/zzz-aarch64-linux-musl $(1)/usr/bin/zzz)
+	$(if $(CONFIG_TARGET_bcm27xx_bcm2711),$(INSTALL_BIN) ./files/bin/zzz-aarch64-linux-musl $(1)/usr/bin/zzz)
 	$(if $(CONFIG_TARGET_ath79_generic),$(INSTALL_BIN) ./files/bin/zzz-mipsel-linux-musleabi $(1)/usr/bin/zzz)
 	$(if $(CONFIG_TARGET_ramips_mt7621),$(INSTALL_BIN) ./files/bin/zzz-mipsel-linux-musleabi $(1)/usr/bin/zzz)
-	$(if $(CONFIG_TARGET_mediatek_mt7622),$(INSTALL_BIN) ./files/bin/zzz-aarch64-linux-gnu $(1)/usr/bin/zzz)
-	$(if $(CONFIG_TARGET_rockchip_armv8),$(INSTALL_BIN) ./files/bin/zzz-aarch64-linux-gnu $(1)/usr/bin/zzz)
+	$(if $(CONFIG_TARGET_mediatek_mt7622),$(INSTALL_BIN) ./files/bin/zzz-aarch64-linux-musl $(1)/usr/bin/zzz)
+	$(if $(CONFIG_TARGET_rockchip_armv8),$(INSTALL_BIN) ./files/bin/zzz-aarch64-linux-musl $(1)/usr/bin/zzz)
 	# Fallback - try to detect architecture
-	$(if $(findstring aarch64,$(ARCH)),$(INSTALL_BIN) ./files/bin/zzz-aarch64-linux-gnu $(1)/usr/bin/zzz)
+	$(if $(findstring aarch64,$(ARCH)),$(INSTALL_BIN) ./files/bin/zzz-aarch64-linux-musl $(1)/usr/bin/zzz)
 	$(if $(findstring mips,$(ARCH)),$(INSTALL_BIN) ./files/bin/zzz-mipsel-linux-musleabi $(1)/usr/bin/zzz)
-	$(if $(findstring x86,$(ARCH)),$(INSTALL_BIN) ./files/bin/zzz-x86-linux-gnu $(1)/usr/bin/zzz)
+	$(if $(findstring x86,$(ARCH)),$(INSTALL_BIN) ./files/bin/zzz-x86-64-linux-musl $(1)/usr/bin/zzz)
 
 	$(INSTALL_BIN) ./files/usr/bin/zzz-device-info $(1)/usr/bin/
 	$(INSTALL_CONF) ./files/etc/config/zzz $(1)/etc/config/

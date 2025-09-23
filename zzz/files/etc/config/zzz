@@ -1,5 +1,5 @@
 config general 'general'
-	option enabled '0'
+	option enabled '1'
 
 config auth 'auth'
 	option username ''
