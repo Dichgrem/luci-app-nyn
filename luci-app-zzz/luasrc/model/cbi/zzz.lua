@@ -53,7 +53,7 @@ control_buttons.cfgvalue = function()
 end
 
 -- Username
-o = s:option(Value, "user", "用户名", "802.1x 认证用户名")
+o = s:option(Value, "username", "用户名", "802.1x 认证用户名")
 o.password = true
 o.rmempty = false
 
