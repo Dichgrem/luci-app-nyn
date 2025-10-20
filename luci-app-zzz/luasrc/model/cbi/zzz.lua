@@ -78,7 +78,6 @@ o.rmempty = false
 o.rawhtml = true
 
 -- Network Device
-o = s:option(ListValue, "device", "网络接口", "用于认证的网络接口")
 o = s:option(
 	Value,
 	"device",
