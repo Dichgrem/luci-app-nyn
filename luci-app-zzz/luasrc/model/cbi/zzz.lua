@@ -1,6 +1,6 @@
 -- /usr/lib/lua/luci/model/cbi/zzz.lua
 local m, s, o
-local sys = require "luci.sys"
+local sys = require("luci.sys")
 
 -- control
 local start_action = luci.http.formvalue("cbid.zzz.auth.start_service")
@@ -8,15 +8,14 @@ local stop_action = luci.http.formvalue("cbid.zzz.auth.stop_service")
 local restart_action = luci.http.formvalue("cbid.zzz.auth.restart_service")
 
 if start_action then
-    sys.call("/etc/rc.d/S99zzz start")
+	sys.call("/etc/rc.d/S99zzz start")
 elseif stop_action then
-    sys.call("/etc/rc.d/S99zzz stop")
+	sys.call("/etc/rc.d/S99zzz stop")
 elseif restart_action then
-    sys.call("/etc/rc.d/S99zzz stop; sleep 2; /etc/rc.d/S99zzz start")
+	sys.call("/etc/rc.d/S99zzz stop; sleep 2; /etc/rc.d/S99zzz start")
 end
 
-m = Map("zzz", "ZZZ 802.1x 认证客户端",
-    "配置使用 zzz 客户端进行网络访问的 802.1x 认证")
+m = Map("zzz", "ZZZ 802.1x 认证客户端", "配置使用 zzz 客户端进行网络访问的 802.1x 认证")
 
 -- Authentication Settings
 s = m:section(TypedSection, "auth", "认证设置")
@@ -27,20 +26,20 @@ s.addremove = false
 o = s:option(DummyValue, "_status", "当前状态")
 o.rawhtml = true
 o.cfgvalue = function()
-    local sys = require "luci.sys"
-    local running = sys.call("pgrep zzz >/dev/null") == 0
-    if running then
-        return "<span style='color:green;font-weight:bold'>✔ 正在运行中</span>"
-    else
-        return "<span style='color:red;font-weight:bold'>✘ 未运行</span>"
-    end
+	local sys = require("luci.sys")
+	local running = sys.call("pgrep zzz >/dev/null") == 0
+	if running then
+		return "<span style='color:green;font-weight:bold'>✔ 正在运行中</span>"
+	else
+		return "<span style='color:red;font-weight:bold'>✘ 未运行</span>"
+	end
 end
 
 -- control buttons
 control_buttons = s:option(DummyValue, "_control", "服务控制")
 control_buttons.rawhtml = true
 control_buttons.cfgvalue = function()
-    return [[
+	return [[
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
             <input type="submit" class="cbi-button cbi-button-apply"
                    name="cbid.zzz.auth.start_service" value="启动服务" />
@@ -53,17 +52,40 @@ control_buttons.cfgvalue = function()
 end
 
 -- Username
-o = s:option(Value, "username", "用户名", "802.1x 认证用户名")
+o = s:option(
+	Value,
+	"username",
+	"用户名",
+	[[802.1x 认证用户名
+<span style="cursor: help; color: #007bff; font-weight: bold;" title="用户名为学号@运营商，例如212306666@cucc；移动为cmcc，联通为cucc，电信为ctcc">?</span>]]
+)
 o.password = true
 o.rmempty = false
+o.rawhtml = true
 
 -- Password
-o = s:option(Value, "password", "密码", "802.1x 认证密码")
 o.password = true
 o.rmempty = false
+o = s:option(
+	Value,
+	"password",
+	"密码",
+	[[802.1x 认证密码
+<span style="cursor: help; color: #007bff; font-weight: bold;" title="密码默认为身份证号后六位，可以在官方客户端inode中修改">?</span>]]
+)
+o.password = true
+o.rmempty = false
+o.rawhtml = true
 
 -- Network Device
 o = s:option(ListValue, "device", "网络接口", "用于认证的网络接口")
+o = s:option(
+	Value,
+	"device",
+	"网络接口",
+	[[用于认证的网络接口
+<span style="cursor: help; color: #007bff; font-weight: bold;" title="可以用ip addr命令查看，有10.38开头ip的接口">?</span>]]
+)
 o.rmempty = false
 o:value("eth0", "eth0")
 o:value("eth1", "eth1")
@@ -72,9 +94,9 @@ o:value("wan", "WAN")
 -- Add network interface
 local interfaces = sys.net.devices()
 for _, iface in ipairs(interfaces) do
-    if iface ~= "lo" then
-        o:value(iface, iface)
-    end
+	if iface ~= "lo" then
+		o:value(iface, iface)
+	end
 end
 
 -- Auto start
@@ -84,34 +106,42 @@ auto_start.rmempty = false
 
 -- Get Status
 auto_start.cfgvalue = function(self, section)
-    local has_cron = sys.call("crontab -l 2>/dev/null | grep 'S99zzz' >/dev/null") == 0
-    return has_cron and "1" or "0"
+	local has_cron = sys.call("crontab -l 2>/dev/null | grep 'S99zzz' >/dev/null") == 0
+	return has_cron and "1" or "0"
 end
 
 -- Crontab
 auto_start.write = function(self, section, value)
-    if value == "1" then
-        -- 启用定时任务：每周一至周五 7:00 启动
-        sys.call("(crontab -l 2>/dev/null | grep -v 'S99zzz' | grep -v '# zzz auto') | crontab - 2>/dev/null")
-        sys.call("(crontab -l 2>/dev/null; echo '0 7 * * 1,2,3,4,5 /etc/rc.d/S99zzz start # zzz auto start') | crontab -")
-        sys.call("/etc/init.d/cron enable && /etc/init.d/cron restart")
-    else
-        -- 禁用定时任务
-        sys.call("(crontab -l 2>/dev/null | grep -v 'S99zzz' | grep -v '# zzz auto') | crontab - 2>/dev/null")
-        sys.call("/etc/init.d/cron restart")
-    end
+	if value == "1" then
+		-- 启用定时任务：每周一至周五 7:00 启动
+		sys.call("(crontab -l 2>/dev/null | grep -v 'S99zzz' | grep -v '# zzz auto') | crontab - 2>/dev/null")
+		sys.call(
+			"(crontab -l 2>/dev/null; echo '0 7 * * 1,2,3,4,5 /etc/rc.d/S99zzz start # zzz auto start') | crontab -"
+		)
+		sys.call("/etc/init.d/cron enable && /etc/init.d/cron restart")
+	else
+		-- 禁用定时任务
+		sys.call("(crontab -l 2>/dev/null | grep -v 'S99zzz' | grep -v '# zzz auto') | crontab - 2>/dev/null")
+		sys.call("/etc/init.d/cron restart")
+	end
 end
 
 -- Crontab Status
 timer_status_display = s:option(DummyValue, "_timer_status_display", "定时任务状态")
 timer_status_display.rawhtml = true
 timer_status_display.cfgvalue = function()
-    local cron_output = sys.exec("crontab -l 2>/dev/null | grep 'S99zzz' || echo '未设置'")
-    if cron_output:match("S99zzz") then
-        return "<span style='color:green;font-weight:bold'>✔ 已启用 (每周一至周五 7:00 自动启动)</span>"
-    else
-        return "<span style='color:red;font-weight:bold'>✘ 未启用</span>"
-    end
+	local cron_output = sys.exec("crontab -l 2>/dev/null | grep 'S99zzz' || echo '未设置'")
+	if cron_output:match("S99zzz") then
+		return "<span style='color:green;font-weight:bold'>✔ 已启用 (每周一至周五 7:00 自动启动)</span>"
+	else
+		return "<span style='color:red;font-weight:bold'>✘ 未启用</span>"
+	end
+end
+
+-- 保存后自动重启 zzz 服务
+m.on_commit = function(self)
+	local sys = require("luci.sys")
+	sys.call("/etc/rc.d/S99zzz restart >/dev/null 2>&1 &")
 end
 
 return m
