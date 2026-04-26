@@ -1,6 +1,6 @@
 local m, s, o
 local sys = require("luci.sys")
-local util = require("luci.util")
+local zzz = require("luci.library.zzz_cron")
 
 m = Map(
 	"zzz",
@@ -8,7 +8,6 @@ m = Map(
 	translate("Configure 802.1x authentication for network access using zzz client")
 )
 
--- Authentication Settings
 s = m:section(TypedSection, "auth", translate("Authentication Settings"))
 s.anonymous = true
 s.addremove = false
@@ -16,18 +15,16 @@ s.addremove = false
 o = s:option(DummyValue, "_status", translate("Current Status"))
 o.rawhtml = true
 o.cfgvalue = function()
-	local running = sys.call("pgrep zzz >/dev/null") == 0
-	if running then
-		return "<span style='color:green;font-weight:bold'>✔ " .. translate("Running") .. "</span>"
+	if zzz.get_service_status() then
+		return "<span style='color:green;font-weight:bold'>" .. translate("Running") .. "</span>"
 	else
-		return "<span style='color:red;font-weight:bold'>✘ " .. translate("Not Running") .. "</span>"
+		return "<span style='color:red;font-weight:bold'>" .. translate("Not Running") .. "</span>"
 	end
 end
 
--- control buttons
-control_buttons = s:option(DummyValue, "_control", translate("Service Control"))
-control_buttons.rawhtml = true
-control_buttons.cfgvalue = function()
+o = s:option(DummyValue, "_control", translate("Service Control"))
+o.rawhtml = true
+o.cfgvalue = function()
 	return [[
 		<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
 			<button type="button" class="cbi-button cbi-button-apply" onclick="fetch('/cgi-bin/luci/admin/network/zzz/service_control',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'action=start'}).then(r=>r.json()).then(d=>{alert(d.message);if(d.success)location.reload();});return false;">]] .. translate(
@@ -43,7 +40,6 @@ control_buttons.cfgvalue = function()
 	]]
 end
 
--- Username
 o = s:option(
 	Value,
 	"username",
@@ -55,9 +51,8 @@ o = s:option(
 		.. [[">?</span>]]
 )
 o.rmempty = false
-o.rawhtml = true
 function o.validate(self, value)
-	value = value:match("^%s*(.-)%s*$") or value
+	value = (value:match("^%s*(.-)%s*$") or value)
 	if #value < 3 or #value > 64 then
 		return nil, translate("Username must be 3-64 characters")
 	end
@@ -67,9 +62,6 @@ function o.validate(self, value)
 	return value
 end
 
--- Password
-o.password = true
-o.rmempty = false
 o = s:option(
 	Value,
 	"password",
@@ -82,7 +74,6 @@ o = s:option(
 )
 o.password = true
 o.rmempty = false
-o.rawhtml = true
 function o.validate(self, value)
 	if #value < 4 or #value > 128 then
 		return nil, translate("Password must be 4-128 characters")
@@ -90,7 +81,6 @@ function o.validate(self, value)
 	return value
 end
 
--- Network Device
 o = s:option(
 	Value,
 	"device",
@@ -120,20 +110,21 @@ function o.validate(self, value)
 	return value
 end
 
--- Auto start
 auto_start = s:option(Flag, "auto_start", translate("Enable Scheduled Start"))
-auto_start.description = translate("When enabled, service will auto-start at 7:00 AM on weekdays (Mon-Fri)")
+auto_start.description = translate("When enabled, service will auto-start at scheduled time on weekdays (Mon-Fri)")
 auto_start.rmempty = false
 
--- Get Status
 auto_start.cfgvalue = function(self, section)
-	local has_cron = sys.call("crontab -l 2>/dev/null | grep 'S99zzz' >/dev/null") == 0
-	return has_cron and "1" or "0"
+	return zzz.is_cron_enabled() and "1" or "0"
 end
 
--- Schedule Time
-schedule_time = s:option(Value, "schedule_time", "启动时间")
-schedule_time.description = "设置定时启动的时间 (格式: HH:MM，例如 07:30)"
+auto_start.write = function(self, section, value)
+	local schedule_time_val = self.map:get(section, "schedule_time") or "07:00"
+	zzz.set_cron(value, schedule_time_val)
+end
+
+schedule_time = s:option(Value, "schedule_time", translate("Schedule Time"))
+schedule_time.description = translate("Daily auto-start time (format: HH:MM, e.g. 07:30)")
 schedule_time.placeholder = "07:00"
 schedule_time.rmempty = false
 schedule_time.default = "07:00"
@@ -145,66 +136,35 @@ end
 
 function schedule_time.validate(self, value)
 	if not value:match("^[0-9][0-9]:[0-9][0-9]$") then
-		return nil, "时间格式必须为 HH:MM (例如 07:30)"
+		return nil, translate("Time format must be HH:MM (e.g. 07:30)")
 	end
 	local hour = tonumber(value:sub(1, 2))
 	local minute = tonumber(value:sub(4, 5))
 	if hour < 0 or hour > 23 then
-		return nil, "小时必须在 0-23 之间"
+		return nil, translate("Hour must be 0-23")
 	end
 	if minute < 0 or minute > 59 then
-		return nil, "分钟必须在 0-59 之间"
+		return nil, translate("Minute must be 0-59")
 	end
 	return value
 end
 
 schedule_time:depends("auto_start", "1")
 
--- Crontab
-auto_start.write = function(self, section, value)
-	local schedule_time_val = self.map:get(section, "schedule_time") or "07:00"
-	local hour, minute = schedule_time_val:match("^(%d+):(%d+)$")
-	local temp_cron = "/tmp/.zzz_cron_tmp_" .. os.time()
-	if value == "1" then
-		sys.call("crontab -l 2>/dev/null > " .. temp_cron)
-		sys.call("sed -i '/S99zzz/d' " .. temp_cron)
-		sys.call("sed -i '/# zzz auto/d' " .. temp_cron)
-		sys.call(
-			string.format(
-				"echo '%s %s * * 1,2,3,4,5 /etc/rc.d/S99zzz start # zzz auto start' >> %s",
-				minute,
-				hour,
-				temp_cron
-			)
-		)
-		sys.call("crontab " .. temp_cron .. " 2>/dev/null && rm -f " .. temp_cron)
-		sys.call("/etc/init.d/cron enable && /etc/init.d/cron restart")
-	else
-		sys.call("crontab -l 2>/dev/null > " .. temp_cron)
-		sys.call("sed -i '/S99zzz/d' " .. temp_cron)
-		sys.call("sed -i '/# zzz auto/d' " .. temp_cron)
-		sys.call("crontab " .. temp_cron .. " 2>/dev/null && rm -f " .. temp_cron)
-		sys.call("/etc/init.d/cron restart")
-	end
-end
-
--- Crontab Status
-timer_status_display = s:option(DummyValue, "_timer_status_display", translate("Scheduled Task Status"))
-timer_status_display.rawhtml = true
-timer_status_display.cfgvalue = function()
-	local cron_output = sys.exec("crontab -l 2>/dev/null | grep 'S99zzz' || echo 'not set'")
-	if cron_output:match("S99zzz") then
-		return "<span style='color:green;font-weight:bold'>✔ "
-			.. translate("Enabled (Auto-start at 7:00 AM on weekdays)")
+o = s:option(DummyValue, "_timer_status", translate("Scheduled Task Status"))
+o.rawhtml = true
+o.cfgvalue = function()
+	if zzz.is_cron_enabled() then
+		local min, hr = zzz.get_cron_time()
+		return "<span style='color:green;font-weight:bold'>"
+			.. string.format(translate("Enabled (Auto-start at %s:%s on weekdays)"), hr or "07", min or "00")
 			.. "</span>"
 	else
-		return "<span style='color:red;font-weight:bold'>✘ " .. translate("Disabled") .. "</span>"
+		return "<span style='color:red;font-weight:bold'>" .. translate("Disabled") .. "</span>"
 	end
 end
 
--- 保存后自动重启 zzz 服务
 m.on_commit = function(self)
-	local sys = require("luci.sys")
 	sys.call("/etc/rc.d/S99zzz restart >/dev/null 2>&1 &")
 end
 
