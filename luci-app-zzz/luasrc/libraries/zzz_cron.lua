@@ -46,10 +46,10 @@ function M.set_cron(enable, schedule_time)
 
 	if enable == "1" then
 		cron_content = cron_content
-			.. string.format("%d %d * * 1,2,3,4,5 /etc/init.d/zzz start %s\n", minute, hour, CRON_MARKER)
+			.. string.format("%d %d * * 1,2,3,4,5 %s start %s\n", minute, hour, INIT_SCRIPT, CRON_MARKER)
 	end
 
-	math.randomseed(os.time(), os.clock())
+	math.randomseed(os.time())
 	local flags = nixio.open_flags("creat", "excl", "trunc", "wronly")
 	local temp_cron
 	for _ = 1, 5 do
