@@ -45,10 +45,8 @@ generate_config() {
 	}
 
 	# 生成INI配置文件
-	cat >"$CONFIG" <<EOF
-[auth]
-username = $username
-password = $password
-device = ${device:-eth0}
-EOF
+	printf '[auth]\n' >"$CONFIG"
+	printf 'username = %s\n' "$username" >>"$CONFIG"
+	printf 'password = %s\n' "$password" >>"$CONFIG"
+	printf 'device = %s\n' "${device:-eth0}" >>"$CONFIG"
 }
