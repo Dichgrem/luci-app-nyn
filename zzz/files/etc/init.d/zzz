@@ -25,6 +25,10 @@ stop_service() {
 	procd_kill zzz
 }
 
+service_triggers() {
+	procd_add_reload_trigger "zzz"
+}
+
 generate_config() {
 	mkdir -p /etc/zzz
 
