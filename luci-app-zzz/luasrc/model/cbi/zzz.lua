@@ -119,7 +119,7 @@ auto_start.cfgvalue = function(self, section)
 end
 
 auto_start.write = function(self, section, value)
-	local schedule_time_val = self.map:get(section, "schedule_time") or "07:00"
+	local schedule_time_val = self.map:formvalue("cbid.zzz." .. section .. ".schedule_time") or "07:00"
 	zzz.set_cron(value, schedule_time_val)
 end
 
@@ -165,7 +165,7 @@ o.cfgvalue = function()
 end
 
 m.on_commit = function(self)
-	sys.call("/etc/rc.d/S99zzz restart >/dev/null 2>&1 &")
+	sys.call("/etc/init.d/zzz restart >/dev/null 2>&1 &")
 end
 
 return m
