@@ -157,7 +157,11 @@ o.cfgvalue = function()
 	if zzz.is_cron_enabled() then
 		local min, hr = zzz.get_cron_time()
 		return "<span style='color:green;font-weight:bold'>"
-			.. string.format(translate("Enabled (Auto-start at %s:%s on weekdays)"), hr or "07", min or "00")
+			.. string.format(
+				translate("Enabled (Auto-start at %s:%s on weekdays)"),
+				("0" .. (hr or "07")):sub(-2),
+				("0" .. (min or "00")):sub(-2)
+			)
 			.. "</span>"
 	else
 		return "<span style='color:red;font-weight:bold'>" .. translate("Disabled") .. "</span>"
