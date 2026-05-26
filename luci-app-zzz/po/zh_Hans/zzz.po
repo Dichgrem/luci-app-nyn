@@ -83,14 +83,29 @@ msgstr "网络接口只能包含字母和数字"
 msgid "Enable Scheduled Start"
 msgstr "启用定时启动"
 
-msgid "When enabled, service will auto-start at 7:00 AM on weekdays (Mon-Fri)"
-msgstr "启用后将在每周一至周五的 7:00 自动启动服务"
+msgid "When enabled, service will auto-start at scheduled time on weekdays (Mon-Fri)"
+msgstr "启用后将在每周一至周五的设定时间自动启动服务"
 
 msgid "Scheduled Task Status"
 msgstr "定时任务状态"
 
-msgid "Enabled (Auto-start at 7:00 AM on weekdays)"
-msgstr "已启用 (每周一至周五 7:00 自动启动)"
+msgid "Enabled (Auto-start at %s:%s on weekdays)"
+msgstr "已启用 (每周一至周五 %s:%s 自动启动)"
 
 msgid "Disabled"
 msgstr "未启用"
+
+msgid "Schedule Time"
+msgstr "定时时间"
+
+msgid "Daily auto-start time (format: HH:MM, e.g. 07:30)"
+msgstr "每日自动启动时间 (格式: HH:MM, 如 07:30)"
+
+msgid "Time format must be HH:MM (e.g. 07:30)"
+msgstr "时间格式必须为 HH:MM (如 07:30)"
+
+msgid "Hour must be 0-23"
+msgstr "小时必须在 0-23 之间"
+
+msgid "Minute must be 0-59"
+msgstr "分钟必须在 0-59 之间"

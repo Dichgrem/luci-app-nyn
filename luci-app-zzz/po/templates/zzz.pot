@@ -82,14 +82,29 @@ msgstr ""
 msgid "Enable Scheduled Start"
 msgstr ""
 
-msgid "When enabled, service will auto-start at 7:00 AM on weekdays (Mon-Fri)"
+msgid "When enabled, service will auto-start at scheduled time on weekdays (Mon-Fri)"
 msgstr ""
 
 msgid "Scheduled Task Status"
 msgstr ""
 
-msgid "Enabled (Auto-start at 7:00 AM on weekdays)"
+msgid "Enabled (Auto-start at %s:%s on weekdays)"
 msgstr ""
 
 msgid "Disabled"
+msgstr ""
+
+msgid "Schedule Time"
+msgstr ""
+
+msgid "Daily auto-start time (format: HH:MM, e.g. 07:30)"
+msgstr ""
+
+msgid "Time format must be HH:MM (e.g. 07:30)"
+msgstr ""
+
+msgid "Hour must be 0-23"
+msgstr ""
+
+msgid "Minute must be 0-59"
 msgstr ""
