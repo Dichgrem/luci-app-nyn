@@ -1,1 +1,12 @@
+Package: cgi-io
+Version: 2022.08.10~901b0f04-r21
+Depends: libc, libubox20240329, libubus20250102
+License: GPL-2.0-or-later
+Section: net
+Architecture: i386_pentium4
+Installed-Size: 30720
+Filename: cgi-io_2022.08.10~901b0f04-r21_i386_pentium4.ipk
+Size: 8974
+SHA256sum: 1f9509f2500b1df6acb94615411a7b8287e35220b8a2a497a657865a1ec7690c
+Description:  This package contains an cgi utility that is useful for up/downloading files
 

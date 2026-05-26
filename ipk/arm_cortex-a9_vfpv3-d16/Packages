@@ -1,1 +1,12 @@
+Package: cgi-io
+Version: 2022.08.10~901b0f04-r21
+Depends: libc, libubox20240329, libubus20250102
+License: GPL-2.0-or-later
+Section: net
+Architecture: arm_cortex-a9_vfpv3-d16
+Installed-Size: 30720
+Filename: cgi-io_2022.08.10~901b0f04-r21_arm_cortex-a9_vfpv3-d16.ipk
+Size: 9325
+SHA256sum: 5fd6c69ee541381ca81623e4250f4474025b7e8be3c54c2cd20fb55962a7645b
+Description:  This package contains an cgi utility that is useful for up/downloading files
 
