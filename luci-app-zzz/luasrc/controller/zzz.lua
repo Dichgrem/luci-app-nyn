@@ -26,11 +26,11 @@ function service_control()
 	if action and valid_actions[action] then
 		local cmd = ""
 		if action == "start" then
-			cmd = "/etc/rc.d/S99zzz start"
+			cmd = "/etc/init.d/zzz start"
 		elseif action == "stop" then
-			cmd = "/etc/rc.d/S99zzz stop"
+			cmd = "/etc/init.d/zzz stop"
 		elseif action == "restart" then
-			cmd = "/etc/rc.d/S99zzz stop && sleep 2 && /etc/rc.d/S99zzz start"
+			cmd = "/etc/init.d/zzz stop && sleep 2 && /etc/init.d/zzz start"
 		end
 
 		if cmd ~= "" then
