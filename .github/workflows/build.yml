@@ -259,6 +259,14 @@ jobs:
           </body>
           </html>
           EOF
+      - name: Create combined archive
+        run: tar -czf packages-all.tar.gz -C repo .
+      - name: Upload combined archive
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: packages-combined
+          path: packages-all.tar.gz
+          if-no-files-found: error
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4.0.0
         with:
