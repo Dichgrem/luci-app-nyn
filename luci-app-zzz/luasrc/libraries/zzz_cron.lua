@@ -1,14 +1,13 @@
-local uci = require("luci.model.uci").init()
 local sys = require("luci.sys")
 local nixio = require("nixio")
 
 local M = {}
 
 local CRON_MARKER = "# zzz auto start"
-local SCRIPT_NAME = "S99zzz"
+local INIT_SCRIPT = "/etc/init.d/zzz"
 
 function M.get_cron_time()
-	local cron_line = sys.exec("crontab -l 2>/dev/null | grep '" .. SCRIPT_NAME .. "' | grep '" .. CRON_MARKER .. "'")
+	local cron_line = sys.exec("crontab -l 2>/dev/null | grep '" .. INIT_SCRIPT .. "' | grep '" .. CRON_MARKER .. "'")
 	if cron_line and cron_line ~= "" then
 		local minute, hour = cron_line:match("^(%d+)%s+(%d+)")
 		return minute, hour
@@ -17,7 +16,7 @@ function M.get_cron_time()
 end
 
 function M.is_cron_enabled()
-	return sys.call("crontab -l 2>/dev/null | grep '" .. SCRIPT_NAME .. "' | grep '" .. CRON_MARKER .. "' >/dev/null")
+	return sys.call("crontab -l 2>/dev/null | grep '" .. INIT_SCRIPT .. "' | grep '" .. CRON_MARKER .. "' >/dev/null")
 		== 0
 end
 
@@ -33,31 +32,42 @@ function M.set_cron(enable, schedule_time)
 		end
 	end
 
-	local temp_cron = "/tmp/.zzz_cron_" .. os.time()
-	local fd = io.open(temp_cron, "w")
-	if not fd then
-		return false
-	end
-
+	local cron_content = ""
 	local current = sys.exec("crontab -l 2>/dev/null")
 	if current and current ~= "" then
 		local lines = {}
 		for line in current:gmatch("[^\r\n]+") do
-			if not line:match(SCRIPT_NAME) and not line:match(CRON_MARKER) then
+			if not line:match(INIT_SCRIPT) and not line:match(CRON_MARKER) then
 				lines[#lines + 1] = line
 			end
 		end
-		fd:write(table.concat(lines, "\n") .. "\n")
+		cron_content = table.concat(lines, "\n") .. "\n"
 	end
 
 	if enable == "1" then
-		fd:write(string.format("%d %d * * 1,2,3,4,5 /etc/rc.d/%s start %s\n", minute, hour, SCRIPT_NAME, CRON_MARKER))
+		cron_content = cron_content
+			.. string.format("%d %d * * 1,2,3,4,5 /etc/init.d/zzz start %s\n", minute, hour, CRON_MARKER)
 	end
 
-	fd:close()
+	math.randomseed(os.time(), os.clock())
+	local flags = nixio.open_flags("creat", "excl", "trunc", "wronly")
+	local temp_cron
+	for _ = 1, 5 do
+		temp_cron = "/tmp/.zzz_cron_" .. os.time() .. "_" .. math.random(100000, 999999)
+		local fd = nixio.open(temp_cron, flags, 600)
+		if fd then
+			fd:writeall(cron_content)
+			fd:close()
+			break
+		end
+		temp_cron = nil
+	end
+	if not temp_cron then
+		return false
+	end
 
 	local ret = sys.call("crontab " .. temp_cron .. " 2>/dev/null")
-	os.remove(temp_cron)
+	nixio.fs.unlink(temp_cron)
 
 	if ret == 0 then
 		sys.call("/etc/init.d/cron restart 2>/dev/null")
@@ -67,7 +77,7 @@ function M.set_cron(enable, schedule_time)
 end
 
 function M.get_service_status()
-	return sys.call("pgrep -f zzz >/dev/null") == 0
+	return sys.call("pidof zzz >/dev/null") == 0
 end
 
 function M.get_zzz_process_info()
