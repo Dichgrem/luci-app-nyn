@@ -1,6 +1,6 @@
 module("luci.controller.zzz", package.seeall)
 
-local zzz_lib = require("luci.library.zzz_cron")
+local zzz_lib = require("luci.model.zzz_cron")
 
 function index()
 	if not nixio.fs.access("/etc/config/zzz") then

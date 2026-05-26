@@ -1,5 +1,5 @@
 sh_files := "zzz/files/etc/init.d/zzz zzz/files/usr/bin/zzz-device-info"
-lua_files := "luci-app-zzz/luasrc/controller/zzz.lua luci-app-zzz/luasrc/model/cbi/zzz.lua luci-app-zzz/luasrc/libraries/zzz_cron.lua"
+lua_files := "luci-app-zzz/luasrc/controller/zzz.lua luci-app-zzz/luasrc/model/cbi/zzz.lua luci-app-zzz/luasrc/model/zzz_cron.lua"
 
 fmt:
 	shfmt -w -s -ln=posix {{sh_files}}

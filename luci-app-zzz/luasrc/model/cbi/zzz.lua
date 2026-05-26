@@ -1,6 +1,6 @@
 local m, s, o
 local sys = require("luci.sys")
-local zzz = require("luci.library.zzz_cron")
+local zzz = require("luci.model.zzz_cron")
 
 m = Map(
 	"zzz",
