@@ -1,12 +1,621 @@
-Package: cgi-io
-Version: 2022.08.10~901b0f04-r21
-Depends: libc, libubox20240329, libubus20250102
-License: GPL-2.0-or-later
-Section: net
+Package: liblucihttp-lua
+Version: 2023.03.15~9b5b683f-r1
+Depends: libc, liblucihttp0, liblua5.1.5
+License: ISC
+Section: libs
+Architecture: x86_64
+Installed-Size: 20480
+Filename: liblucihttp-lua_2023.03.15~9b5b683f-r1_x86_64.ipk
+Size: 4356
+SHA256sum: f256b45049d1a9f011a124498136494699e3d2ec28d168348a75c06e7ede5f46
+Description:  Lua binding for the LuCI HTTP utility library
+
+Package: liblucihttp-ucode
+Version: 2023.03.15~9b5b683f-r1
+Depends: libc, liblucihttp0, libucode20230711
+License: ISC
+Section: libs
+Architecture: x86_64
+Installed-Size: 20480
+Filename: liblucihttp-ucode_2023.03.15~9b5b683f-r1_x86_64.ipk
+Size: 4826
+SHA256sum: e754fe9a2caa99b48dd9cc2b5d81690ab54807da38b7b214c6d79a19f810bab3
+Description:  ucode binding for the LuCI HTTP utility library
+
+Package: liblucihttp0
+Version: 2023.03.15~9b5b683f-r1
+Depends: libc
+Provides: liblucihttp
+License: ISC
+Section: libs
+ABIVersion: 0
+Architecture: x86_64
+Installed-Size: 30720
+Filename: liblucihttp0_2023.03.15~9b5b683f-r1_x86_64.ipk
+Size: 8613
+SHA256sum: 07eea12c5e3ae3cfbd0afa802576f2f60fc0d4f85061707f5f3dd33731365158
+Description:  LuCI HTTP utility library
+
+Package: luci-base
+Version: 25.340.26705~d88390b
+Depends: libc, rpcd, rpcd-mod-file, rpcd-mod-luci, rpcd-mod-ucode, cgi-io, ucode, ucode-mod-fs, ucode-mod-uci, ucode-mod-ubus, ucode-mod-math, ucode-mod-html, liblucihttp-ucode
+License: Apache-2.0
+Section: luci
+URL: https://github.com/openwrt/luci
+Architecture: x86_64
+Installed-Size: 788480
+Filename: luci-base_25.340.26705~d88390b_x86_64.ipk
+Size: 149714
+SHA256sum: 0a1db4eeb4282fc0329e8ed1ab7ee81e0a4fda46d266578908f9c7a9e3f49c3f
+Description:  LuCI core runtime
+
+Package: luci-compat
+Version: 25.340.26705~d88390b
+Depends: libc, luci-lua-runtime, luci-lua-runtime
+License: Apache-2.0
+Section: luci
+URL: https://github.com/openwrt/luci
+Architecture: all
+Installed-Size: 245760
+Filename: luci-compat_25.340.26705~d88390b_all.ipk
+Size: 46460
+SHA256sum: f03720b667ebe385b9dfdce14b30e427212fcdb306735abb1107955de8e9a1fe
+Description:  LuCI compatibility libraries
+
+Package: luci-i18n-base-ar
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 174080
+Filename: luci-i18n-base-ar_25.340.26705~d88390b_all.ipk
+Size: 59744
+SHA256sum: 4f01fbe4292e22c415c7401aba3f3edba13809fb82cdfff7ca9f2358f3c70906
+Description:  Translation for luci-base - العربية (Arabic)
+
+Package: luci-i18n-base-bg
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 30720
+Filename: luci-i18n-base-bg_25.340.26705~d88390b_all.ipk
+Size: 10169
+SHA256sum: 1e4ebec4dd2597f1f013647043ca6806d32366c405e89dd00af73498a5f09afd
+Description:  Translation for luci-base - български (Bulgarian)
+
+Package: luci-i18n-base-bn
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 20480
+Filename: luci-i18n-base-bn_25.340.26705~d88390b_all.ipk
+Size: 2688
+SHA256sum: f4f381e5d0a0ad657e43461a247b08ae22d733b3407d6d363edfec942c187503
+Description:  Translation for luci-base - বাংলা (Bengali)
+
+Package: luci-i18n-base-ca
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 51200
+Filename: luci-i18n-base-ca_25.340.26705~d88390b_all.ipk
+Size: 19470
+SHA256sum: 6a263ce7f4352cbf09e4b9fa2f51cf62240f7d600524ea16f26c0f41ab683507
+Description:  Translation for luci-base - Català (Catalan)
+
+Package: luci-i18n-base-cs
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 163840
+Filename: luci-i18n-base-cs_25.340.26705~d88390b_all.ipk
+Size: 65521
+SHA256sum: 24d5b6c264427172571cf0d493a17e2d5b5f386f4ff528ddcbd6e9791f5553a2
+Description:  Translation for luci-base - Čeština (Czech)
+
+Package: luci-i18n-base-da
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 122880
+Filename: luci-i18n-base-da_25.340.26705~d88390b_all.ipk
+Size: 47346
+SHA256sum: ff920a334a29622fd61c4a8e2f6b49092797dddb92ea4378f1a60dc8d650671b
+Description:  Translation for luci-base - Dansk (Danish)
+
+Package: luci-i18n-base-de
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 163840
+Filename: luci-i18n-base-de_25.340.26705~d88390b_all.ipk
+Size: 62162
+SHA256sum: 8cc3f4ce21dc57cd9da408d1b1db132e891c4ac5ece0bc0d98c3c3b8536894f9
+Description:  Translation for luci-base - Deutsch (German)
+
+Package: luci-i18n-base-el
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 51200
+Filename: luci-i18n-base-el_25.340.26705~d88390b_all.ipk
+Size: 16532
+SHA256sum: 02cd6661fa21029614ce370d8793b28c4dd3b90e41f63a21b5e75306681b9a5d
+Description:  Translation for luci-base - Ελληνικά (Greek)
+
+Package: luci-i18n-base-es
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 163840
+Filename: luci-i18n-base-es_25.340.26705~d88390b_all.ipk
+Size: 62909
+SHA256sum: 614433c5e403a79d0aed3dab33cfed7beb58127af25e4560beeebf3af941710d
+Description:  Translation for luci-base - Español (Spanish)
+
+Package: luci-i18n-base-fa
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 20480
+Filename: luci-i18n-base-fa_25.340.26705~d88390b_all.ipk
+Size: 6021
+SHA256sum: 5c94f5721a22879dc01ec71dd4048d89ca31f64d9d902aa46864a7e3bd929bea
+Description:  Translation for luci-base - Farsi (Persian)
+
+Package: luci-i18n-base-fi
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 92160
+Filename: luci-i18n-base-fi_25.340.26705~d88390b_all.ipk
+Size: 35575
+SHA256sum: 6d15e48ff450b9154970b9cd1dfb9d0bc6c91818b61cec9c918079639ed9ef58
+Description:  Translation for luci-base - Suomi (Finnish)
+
+Package: luci-i18n-base-fil
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 20480
+Filename: luci-i18n-base-fil_25.340.26705~d88390b_all.ipk
+Size: 6481
+SHA256sum: 44b2a87ad660038872900fe24adcab4f4b2a521fe1e63949815a4040ced0bcb6
+Description:  Translation for luci-base - Filipino (Philippinic)
+
+Package: luci-i18n-base-fr
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 133120
+Filename: luci-i18n-base-fr_25.340.26705~d88390b_all.ipk
+Size: 49763
+SHA256sum: 339ef3b6dd33ecf4315b37419b043896f1e256e9e952a0b44b4483d2f8b31e96
+Description:  Translation for luci-base - Français (French)
+
+Package: luci-i18n-base-ga
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 163840
+Filename: luci-i18n-base-ga_25.340.26705~d88390b_all.ipk
+Size: 64711
+SHA256sum: b3d68775036c105a1f07e0378cb2f13564ab39344d3328dd4007f10f5b167040
+Description:  Translation for luci-base - Gaeilge (Irish)
+
+Package: luci-i18n-base-he
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 20480
+Filename: luci-i18n-base-he_25.340.26705~d88390b_all.ipk
+Size: 6212
+SHA256sum: b46dc19b85fedd2cdcad75e2256a1b583d5dd852a039a6f90a492515bebde647
+Description:  Translation for luci-base - עִבְרִית (Hebrew)
+
+Package: luci-i18n-base-hi
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 20480
+Filename: luci-i18n-base-hi_25.340.26705~d88390b_all.ipk
+Size: 3185
+SHA256sum: 90c385c345c2f9d09a6c973fcbb866f57fb68c0cf3aa2dc5e36a4434ed309d1a
+Description:  Translation for luci-base - हिंदी (Hindi)
+
+Package: luci-i18n-base-hu
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 163840
+Filename: luci-i18n-base-hu_25.340.26705~d88390b_all.ipk
+Size: 59822
+SHA256sum: f387ff6e724b87b8e580686a394238b1eea2657378b6e321b634ca2ce2ed769d
+Description:  Translation for luci-base - Magyar (Hungarian)
+
+Package: luci-i18n-base-it
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 143360
+Filename: luci-i18n-base-it_25.340.26705~d88390b_all.ipk
+Size: 54193
+SHA256sum: 8a17a88bedd898ac605174990905da645f3044e9aa52b66093e2223132b91bd8
+Description:  Translation for luci-base - Italiano (Italian)
+
+Package: luci-i18n-base-ja
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 112640
+Filename: luci-i18n-base-ja_25.340.26705~d88390b_all.ipk
+Size: 38727
+SHA256sum: 4763a3fb42568c275edda823249232935c4bb034a29bddf95d9e9cdb9b89ea9d
+Description:  Translation for luci-base - 日本語 (Japanese)
+
+Package: luci-i18n-base-ko
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 51200
+Filename: luci-i18n-base-ko_25.340.26705~d88390b_all.ipk
+Size: 19410
+SHA256sum: 1313bf93bb2b55036b2a35739f7d20cd2ccd5c2c20e199ffa539af6939613da8
+Description:  Translation for luci-base - 한국어 (Korean)
+
+Package: luci-i18n-base-lt
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 184320
+Filename: luci-i18n-base-lt_25.340.26705~d88390b_all.ipk
+Size: 68777
+SHA256sum: 86e7276a2b8f0752b9266e30760528228a562188e9b6130acea0b8d0755145ab
+Description:  Translation for luci-base - Lietuvių (Lithuanian)
+
+Package: luci-i18n-base-mr
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 10240
+Filename: luci-i18n-base-mr_25.340.26705~d88390b_all.ipk
+Size: 2212
+SHA256sum: c901e28c6baeb66996c63841b78caae9f51712474ae8400bcab8444767b20251
+Description:  Translation for luci-base - Marāṭhī (Marathi)
+
+Package: luci-i18n-base-ms
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 20480
+Filename: luci-i18n-base-ms_25.340.26705~d88390b_all.ipk
+Size: 6683
+SHA256sum: 2df3044403444ab666fb1322db640755928dd2f6e5ca3f8384c5ce6dac746e3a
+Description:  Translation for luci-base - Bahasa Melayu (Malay)
+
+Package: luci-i18n-base-nl
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 122880
+Filename: luci-i18n-base-nl_25.340.26705~d88390b_all.ipk
+Size: 47100
+SHA256sum: 17dde9cfa1cf390e58581936c64b7d90bc21582430878938ab8966d85413691e
+Description:  Translation for luci-base - Nederlands (Dutch)
+
+Package: luci-i18n-base-no
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 51200
+Filename: luci-i18n-base-no_25.340.26705~d88390b_all.ipk
+Size: 16986
+SHA256sum: a49beaba765c78ea121af1b97fd3132234a4776bdc277bffe0befe61683cbc38
+Description:  Translation for luci-base - Norsk (Norwegian)
+
+Package: luci-i18n-base-pl
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 163840
+Filename: luci-i18n-base-pl_25.340.26705~d88390b_all.ipk
+Size: 64153
+SHA256sum: 75ff12317b47269dff1516ef3b2ff97817c1047692bd9bcd5f73569f209ce25b
+Description:  Translation for luci-base - Polski (Polish)
+
+Package: luci-i18n-base-pt-br
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 163840
+Filename: luci-i18n-base-pt-br_25.340.26705~d88390b_all.ipk
+Size: 63632
+SHA256sum: b671f2645432b45f864dbbc33c0111e92f89778ebb44346ac22f3698e9607e3a
+Description:  Translation for luci-base - Português do Brasil (Brazilian Portuguese)
+
+Package: luci-i18n-base-pt
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 163840
+Filename: luci-i18n-base-pt_25.340.26705~d88390b_all.ipk
+Size: 63048
+SHA256sum: ce650fd60810de860caa30fc1fbdf03c8f6cafde2ce35718c3c3e361b96079ec
+Description:  Translation for luci-base - Português (Portuguese)
+
+Package: luci-i18n-base-ro
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 153600
+Filename: luci-i18n-base-ro_25.340.26705~d88390b_all.ipk
+Size: 58709
+SHA256sum: f94709ddf2daaa9a7f8442b7e1236c281745f78ccdb876252be4de59e5db5f52
+Description:  Translation for luci-base - Română (Romanian)
+
+Package: luci-i18n-base-ru
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 256000
+Filename: luci-i18n-base-ru_25.340.26705~d88390b_all.ipk
+Size: 76447
+SHA256sum: 963dcf098c28ccf21f9818049521db696b487835cfc09425f464dcc031449afc
+Description:  Translation for luci-base - Русский (Russian)
+
+Package: luci-i18n-base-sk
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 61440
+Filename: luci-i18n-base-sk_25.340.26705~d88390b_all.ipk
+Size: 24361
+SHA256sum: 8cbf7759d6701c0672fc52968149efa681222ca65af7da9c56037c53e5c01adb
+Description:  Translation for luci-base - Slovenčina (Slovak)
+
+Package: luci-i18n-base-sv
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 51200
+Filename: luci-i18n-base-sv_25.340.26705~d88390b_all.ipk
+Size: 18410
+SHA256sum: 81c0d5c92264def32c284f7f0aac7baa77eddd1328c0ba1b94fec161855b06a9
+Description:  Translation for luci-base - Svenska (Swedish)
+
+Package: luci-i18n-base-tr
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 143360
+Filename: luci-i18n-base-tr_25.340.26705~d88390b_all.ipk
+Size: 55322
+SHA256sum: 69633a229d54b507ee589a3c7b4bb541f122d746184435ee42e10637b6c777a4
+Description:  Translation for luci-base - Türkçe (Turkish)
+
+Package: luci-i18n-base-uk
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 235520
+Filename: luci-i18n-base-uk_25.340.26705~d88390b_all.ipk
+Size: 74069
+SHA256sum: 327e38e4961114a67af020e6abbb5f4db91ad6be5fcfc8ddb323db2b862c1bbc
+Description:  Translation for luci-base - Українська (Ukrainian)
+
+Package: luci-i18n-base-vi
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 163840
+Filename: luci-i18n-base-vi_25.340.26705~d88390b_all.ipk
+Size: 55506
+SHA256sum: eed8aee0936abb2a0a7527c59ee43198b69b0407ea48c840a827a17556d04254
+Description:  Translation for luci-base - Tiếng Việt (Vietnamese)
+
+Package: luci-i18n-base-yua
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 153600
+Filename: luci-i18n-base-yua_25.340.26705~d88390b_all.ipk
+Size: 56405
+SHA256sum: 8e7ae402cc384022ba74803f9519317fe5735847aea6ade56cbe71701be4e568
+Description:  Translation for luci-base - Yucateco (Yucatec Maya)
+
+Package: luci-i18n-base-zh-cn
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 143360
+Filename: luci-i18n-base-zh-cn_25.340.26705~d88390b_all.ipk
+Size: 59556
+SHA256sum: 6c715986564ece09cf38ef454316e56803c4fe21fe06997822a30fd10d2ed32b
+Description:  Translation for luci-base - 简体中文 (Simplified Chinese)
+
+Package: luci-i18n-base-zh-tw
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base
+License: Apache-2.0
+Section: luci
+Architecture: all
+Installed-Size: 133120
+Filename: luci-i18n-base-zh-tw_25.340.26705~d88390b_all.ipk
+Size: 56007
+SHA256sum: 3242818a3ca0cba72f474a4eb3a42c3985892bc9d898bed710b94b790490722c
+Description:  Translation for luci-base - 正體中文 (Traditional Chinese)
+
+Package: luci-lib-base
+Version: 25.340.26705~d88390b
+Depends: libc, lua, luci-lib-nixio, luci-lib-ip, luci-lib-jsonc, liblucihttp-lua
+License: Apache-2.0
+Section: luci
+URL: https://github.com/openwrt/luci
+Architecture: all
+Installed-Size: 40960
+Filename: luci-lib-base_25.340.26705~d88390b_all.ipk
+Size: 10537
+SHA256sum: 6eebbe9b9b3176c62763ff4aff99a560a354a68ca655b6af1054dd0f72ed5b02
+Description:  basic libraries for luci
+
+Package: luci-lib-ip
+Version: 25.340.26705~d88390b
+Depends: libc, liblua5.1.5, libnl-tiny1
+License: Apache-2.0
+Section: luci
+URL: https://github.com/openwrt/luci
 Architecture: x86_64
 Installed-Size: 40960
-Filename: cgi-io_2022.08.10~901b0f04-r21_x86_64.ipk
-Size: 9628
-SHA256sum: 640a53bd1c37963f3eb6e9f24e5088b91246dd4c4bc70f953bca9dc8a9098348
-Description:  This package contains an cgi utility that is useful for up/downloading files
+Filename: luci-lib-ip_25.340.26705~d88390b_x86_64.ipk
+Size: 12663
+SHA256sum: dd6583987ab63bca90a61009b4d4a26cb9e58adbd737ad99bb951f8069380e2f
+Description:  Lua library for IP calculation and routing information
+
+Package: luci-lib-jsonc
+Version: 25.340.26705~d88390b
+Depends: libc, liblua5.1.5, libjson-c5
+License: Apache-2.0
+Section: luci
+URL: https://github.com/openwrt/luci
+Architecture: x86_64
+Installed-Size: 30720
+Filename: luci-lib-jsonc_25.340.26705~d88390b_x86_64.ipk
+Size: 5166
+SHA256sum: dd4f19243eb83d93076db962db05c58089f28bb18710381d34f06eff8bdd4543
+Description:  Lua binding for JSON-C
+
+Package: luci-lib-nixio
+Version: 25.340.26705~d88390b
+Depends: libc, liblua5.1.5
+License: Apache-2.0
+Section: luci
+URL: https://github.com/openwrt/luci
+Architecture: x86_64
+Installed-Size: 102400
+Filename: luci-lib-nixio_25.340.26705~d88390b_x86_64.ipk
+Size: 34186
+SHA256sum: e1de1ea427cb1d5cdd39e54f9b25931d87fe2eafb76cf1eca121e676942a13a1
+Description:  NIXIO POSIX library
+
+Package: luci-lua-runtime
+Version: 25.340.26705~d88390b
+Depends: libc, luci-base, lua, luci-lib-base, luci-lib-nixio, luci-lib-ip, luci-lib-jsonc, libubus-lua, liblucihttp-lua, ucode-mod-lua
+License: Apache-2.0
+Section: luci
+URL: https://github.com/openwrt/luci
+Architecture: x86_64
+Installed-Size: 122880
+Filename: luci-lua-runtime_25.340.26705~d88390b_x86_64.ipk
+Size: 30638
+SHA256sum: 309ed742a1a6a44b08975a91efba95eede20ccd041dfe80de74ea1eaf1b50370
+Description:  LuCI Lua runtime libraries
+
+Package: rpcd-mod-luci
+Version: 20240305-r1
+Depends: libc, rpcd, libubox20240329, libubus20250102, libnl-tiny1
+License: Apache-2.0
+Section: libs
+Architecture: x86_64
+Installed-Size: 40960
+Filename: rpcd-mod-luci_20240305-r1_x86_64.ipk
+Size: 14543
+SHA256sum: 4628172b466a472989bfe74401b06a1674fa7b8ec323e1564c99248ba79cfdfc
+Description:  Provides LuCI backend ubus RPC operations.
+
+Package: ucode-mod-html
+Version: 1
+Depends: libc, libucode20230711
+License: ISC
+Section: utils
+Architecture: x86_64
+Installed-Size: 122880
+Filename: ucode-mod-html_1_x86_64.ipk
+Size: 30278
+SHA256sum: 9b0387dfa6f684873259510e83b88884adffe4dd5415e97eeaca1ff474fe44db
+Description:  ucode HTML utility library
+
+Package: ucode-mod-lua
+Version: 1
+Depends: libc, libucode20230711, liblua5.1.5
+License: ISC
+Section: utils
+Architecture: x86_64
+Installed-Size: 40960
+Filename: ucode-mod-lua_1_x86_64.ipk
+Size: 9518
+SHA256sum: 7240a27ff11695167e3f33a5161ddc352ed64993fd48b7b9b064302d0a747eb5
+Description:  ucode to Lua bridge library
 
